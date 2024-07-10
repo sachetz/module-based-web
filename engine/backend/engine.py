@@ -8,7 +8,7 @@ templates = {
     'start': {
         'template': None,
         'next': 'success1',
-        'error': 'error1',
+        'error': None
     },
     'success1': {
         'template': 'success1.html',
@@ -23,7 +23,7 @@ templates = {
     'error1': {
         'template': 'error1.html',
         'next': None,
-        'error': None,
+        'error': None
     },
     'error2': {
         'template': 'error2.html',
