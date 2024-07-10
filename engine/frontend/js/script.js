@@ -1,15 +1,16 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    let index = 0;
+    let currentTemplateKey = 'start';
 
-    const fetchTemplate = (index, status) => {
-        fetch(`/fetch_template/${index}/${status}`)
+    const fetchTemplate = (templateKey, status) => {
+        fetch(`/fetch_template/${templateKey}/${status}`)
             .then(response => response.json())
             .then(data => {
                 if (data.end) {
                     document.getElementById('content').innerHTML = '<p>All templates rendered.</p>';
                 } else {
                     document.getElementById('content').innerHTML = data.template;
-                    setupButtons(index);
+                    currentTemplateKey = data.next_key;
+                    setupButtons();
                 }
             })
             .catch(error => {
@@ -17,15 +18,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
             });
     };
 
-    const setupButtons = (index) => {
+    const setupButtons = () => {
         document.getElementById('next-button').addEventListener('click', () => {
-            fetchTemplate(index + 1, 'success');
+            fetchTemplate(currentTemplateKey, 'next');
         });
 
         document.getElementById('error-button').addEventListener('click', () => {
-            fetchTemplate(index + 1, 'error');
+            fetchTemplate(currentTemplateKey, 'error');
         });
     };
 
-    fetchTemplate(index, 'success');  // Start fetching templates
+    // Start with the initial template
+    fetchTemplate(currentTemplateKey, 'next');  
 });
